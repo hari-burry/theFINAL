@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import base64
 import streamlit as st
 from langchain_groq import ChatGroq
+from utils import safe_json_loads, extract_json_value, standardize_llm_output, validate_llm_response, AGENT_SCHEMAS, robust_llm_call
 
 
 load_dotenv()
@@ -551,11 +552,14 @@ Output (JSON ONLY): {{"topic": "<research topic string>"}}
 # =======================
 # AGENT FUNCTIONS
 # =======================
+@robust_llm_call
 def generate_basal_explanation(subtopic, word_limit):
     prompt = BASAL_GENERATOR_PROMPT.format(word_limit=word_limit)
     msg = llm.invoke([("system", prompt), ("human", f"Subtopic:\n{subtopic}")])
-    return json.loads(msg.content)["new_content"]
+    parsed = safe_json_loads(msg.content, {"new_content": "Error: Could not generate basal explanation"})
+    return extract_json_value(parsed, "new_content", "Error: Could not generate basal explanation")
 
+@robust_llm_call
 def generate_new_content(subtopic, baseline, questions, word_limit, cycle=1):
     depth_levels = {
         1: "foundational concepts and basic relationships",
@@ -576,8 +580,10 @@ def generate_new_content(subtopic, baseline, questions, word_limit, cycle=1):
         ("system", prompt),
         ("human", f"Subtopic:\n{subtopic}\n\nCurrent explanation:\n{baseline}\n\nUnresolved questions:\n{json.dumps(questions)}")
     ])
-    return json.loads(msg.content)["new_content"]
+    parsed = safe_json_loads(msg.content, {"new_content": "Error: Could not generate new content"})
+    return extract_json_value(parsed, "new_content", "Error: Could not generate new content")
 
+@robust_llm_call
 def generate_deeper_content(subtopic, baseline, questions, word_limit, cycle=2):
     deeper_focus_areas = {
         2: "- Underlying mechanisms\n- Relationships between concepts\n- Intermediate principles\n- System dynamics",
@@ -591,13 +597,22 @@ def generate_deeper_content(subtopic, baseline, questions, word_limit, cycle=2):
         ("system", prompt),
         ("human", f"Subtopic:\n{subtopic}\n\nCurrent explanation:\n{baseline}\n\nQuestions:\n{json.dumps(questions)}")
     ])
-    return json.loads(msg.content)["new_content"]
+    parsed = safe_json_loads(msg.content, {"new_content": "Error: Could not generate deeper content"})
+    return extract_json_value(parsed, "new_content", "Error: Could not generate deeper content")
 
+@robust_llm_call
 def validate_depth(baseline, new_content):
     prompt = DEPTH_VALIDATOR_PROMPT.format(baseline=baseline, new_content=new_content)
     msg = llm.invoke([("system", prompt), ("human", "Validate depth improvement")])
-    return json.loads(msg.content)
+    parsed = safe_json_loads(msg.content, {
+        "depth_improvement_percent": 0,
+        "is_genuinely_deeper": False,
+        "depth_analysis": "Validation failed",
+        "recommendation": "accept"
+    })
+    return validate_llm_response(parsed, AGENT_SCHEMAS["validator"])
 
+@robust_llm_call
 def scrutinize(subtopic, explanation, asked_questions):
     prompt = SCRUTINIZER_PROMPT.format(
         asked_questions=json.dumps(list(asked_questions))
@@ -607,22 +622,14 @@ def scrutinize(subtopic, explanation, asked_questions):
         ("human", f"Explanation:\n{explanation}")
     ])
     content = msg.content.strip()
-    try:
-        data = json.loads(content)
-        questions = data.get("questions", [])
-    except:
-        start = content.find("{")
-        end = content.rfind("}") + 1
-        if start != -1 and end != -1:
-            try:
-                data = json.loads(content[start:end])
-                questions = data.get("questions", [])
-            except:
-                questions = []
-        else:
-            questions = []
+    parsed = safe_json_loads(content, {"questions": []})
+    questions = extract_json_value(parsed, "questions", [])
+    if not isinstance(questions, list):
+        questions = [str(questions)] if questions else []
+    questions = [q.strip() for q in questions if q and q.strip()]
     return [q for q in questions if q not in asked_questions]
 
+@robust_llm_call
 def refine(baseline, new_content, word_limit, subtopic, cycle=1):
     depth_strategies = {
         1: "Build foundational understanding first",
@@ -638,23 +645,15 @@ def refine(baseline, new_content, word_limit, subtopic, cycle=1):
         depth_strategy=depth_strategies.get(cycle, "progressive deepening")
     )
     msg = llm.invoke([("system", prompt)])
-    try:
-        return json.loads(msg.content)["refined_explanation"]
-    except Exception:
-        content = msg.content
-        start = content.find("{")
-        end = content.rfind("}") + 1
-        if start != -1 and end != -1:
-            try:
-                return json.loads(content[start:end])["refined_explanation"]
-            except:
-                pass
-        return content.strip()
+    parsed = safe_json_loads(msg.content, {"refined_explanation": f"{baseline}\n\n{new_content}"})
+    return extract_json_value(parsed, "refined_explanation", f"{baseline}\n\n{new_content}")
 
+@robust_llm_call
 def final_refine(explanation, subtopic, word_limit):
     prompt = FINAL_REFINER_PROMPT.format(word_limit=word_limit, topic=subtopic, explanation=explanation)
     msg = llm.invoke([("system", prompt)])
-    return json.loads(msg.content)["refined_explanation"]
+    parsed = safe_json_loads(msg.content, {"refined_explanation": explanation})
+    return extract_json_value(parsed, "refined_explanation", explanation)
 
 def extract_topic_from_image(image_bytes, hint=""):
     if hint:
