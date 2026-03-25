@@ -25,6 +25,7 @@ A complete **Question Rewriting System** that improves your research pipeline by
 ## 📦 WHAT WAS DELIVERED
 
 ### Code (4 Files - 700+ Lines)
+
 ```
 ✅ rewriter_agent.py              (100 lines)    → Core module
 ✅ integration_example.py         (150 lines)    → Usage patterns
@@ -33,6 +34,7 @@ A complete **Question Rewriting System** that improves your research pipeline by
 ```
 
 ### Documentation (6 Files - 1500+ Lines)
+
 ```
 ✅ START_HERE.md                                 → 5-min overview
 ✅ REWRITER_QUICK_START.md                      → Fast reference
@@ -44,6 +46,7 @@ A complete **Question Rewriting System** that improves your research pipeline by
 ```
 
 ### Enhanced (1 File)
+
 ```
 ✅ prompts.py                                   → 2 new prompts added
 ```
@@ -53,30 +56,36 @@ A complete **Question Rewriting System** that improves your research pipeline by
 ## 🚀 TRY IT RIGHT NOW
 
 ### Option 1: Interactive (Recommended for First Time)
+
 ```bash
 streamlit run streamlit_rewriter_demo.py
 ```
+
 ✨ Opens in browser with full UI  
 ⏱️ Takes 1 minute  
-📊 4 different modes to explore  
+📊 4 different modes to explore
 
 ### Option 2: Validate Everything Works
+
 ```bash
 python test_rewriter_agent.py
 ```
+
 ✅ Runs complete test suite  
 ⏱️ Takes 2 minutes  
-📋 Shows what each function does  
+📋 Shows what each function does
 
 ### Option 3: Use Immediately in Code
+
 ```python
 from rewriter_agent import rewrite_full_pipeline
 result = rewrite_full_pipeline("What is machine learning?")
 print(result['recommended_plan_topic'])
 print(result['recommended_search_queries'])
 ```
+
 ⏱️ Takes 30 seconds  
-💻 Direct Python usage  
+💻 Direct Python usage
 
 ---
 
@@ -108,6 +117,7 @@ result = rewrite_full_pipeline("What are transformers?")
 ## 🔗 THREE INTEGRATION PATTERNS
 
 ### Pattern 1: Better Planning
+
 ```python
 from rewriter_agent import rewrite_for_planning
 from planning_agent import generate_plan
@@ -117,6 +127,7 @@ plan = generate_plan(rewritten['rewritten_question'])
 ```
 
 ### Pattern 2: Better Search
+
 ```python
 from rewriter_agent import rewrite_for_search
 from mcp_client import fetch_news
@@ -126,6 +137,7 @@ news = fetch_news(rewritten['news_queries'][0])
 ```
 
 ### Pattern 3: Everything Together
+
 ```python
 from rewriter_agent import rewrite_full_pipeline
 from planning_agent import generate_plan
@@ -140,19 +152,20 @@ news = fetch_news(result['recommended_search_queries']['news'][0])
 
 ## 📚 DOCUMENTATION QUICK GUIDE
 
-| Read | Purpose | Time | Best For |
-|------|---------|------|----------|
-| **START_HERE.md** | Overview | 5 min | Quick understanding |
-| **QUICK_START.md** | Examples | 10 min | Getting started |
-| **USAGE_SCENARIOS.md** | Decision guide | 15 min | Finding your use case |
-| **AGENT_DOCS.md** | Complete ref | 30 min | Deep technical info |
-| **integration_example.py** | Code examples | 10 min | Copy-paste patterns |
+| Read                       | Purpose        | Time   | Best For              |
+| -------------------------- | -------------- | ------ | --------------------- |
+| **START_HERE.md**          | Overview       | 5 min  | Quick understanding   |
+| **QUICK_START.md**         | Examples       | 10 min | Getting started       |
+| **USAGE_SCENARIOS.md**     | Decision guide | 15 min | Finding your use case |
+| **AGENT_DOCS.md**          | Complete ref   | 30 min | Deep technical info   |
+| **integration_example.py** | Code examples  | 10 min | Copy-paste patterns   |
 
 ---
 
 ## ✨ WHAT THIS SOLVES
 
 ### Before Your Rewriter Agent
+
 ```
 ❌ Vague user questions
    ↓
@@ -166,6 +179,7 @@ news = fetch_news(result['recommended_search_queries']['news'][0])
 ```
 
 ### After Your Rewriter Agent
+
 ```
 ✅ Clarified user questions
    ↓
@@ -217,51 +231,58 @@ START_HERE.md (Entry point for everyone)
 ## 🚀 GETTING STARTED (Pick One)
 
 ### Fastest (30 seconds)
+
 ```python
 from rewriter_agent import rewrite_for_planning
 print(rewrite_for_planning("What is AI?")['rewritten_question'])
 ```
 
 ### Most Visual (1 minute)
+
 ```bash
 streamlit run streamlit_rewriter_demo.py  # Opens in browser
 ```
 
 ### Most Thorough (2 minutes)
+
 ```bash
 python test_rewriter_agent.py  # Validates everything
 ```
 
 ### Best Learning (5 minutes)
+
 Read: START_HERE.md, then try one of the above
 
 ---
 
 ## 📊 FILE STATISTICS
 
-| Category | Count | Total Lines |
-|----------|-------|------------|
-| Code | 4 files | 700+ |
-| Documentation | 6 files | 1500+ |
-| Updated | 1 file | Enhanced |
-| **TOTAL** | **11** | **2200+** |
+| Category      | Count   | Total Lines |
+| ------------- | ------- | ----------- |
+| Code          | 4 files | 700+        |
+| Documentation | 6 files | 1500+       |
+| Updated       | 1 file  | Enhanced    |
+| **TOTAL**     | **11**  | **2200+**   |
 
 ---
 
 ## 🎯 NEXT ACTIONS
 
 ### Right Now (Pick One)
+
 - [ ] Run: `streamlit run streamlit_rewriter_demo.py`
 - [ ] Test: `python test_rewriter_agent.py`
 - [ ] Read: START_HERE.md (5 min)
 - [ ] Copy: Example code above
 
 ### This Week
+
 - [ ] Test with your own questions
 - [ ] Choose integration pattern
 - [ ] Add to your code
 
 ### This Month
+
 - [ ] Integrate into production
 - [ ] Customize prompts if needed
 - [ ] Measure improvements
@@ -275,7 +296,7 @@ Read: START_HERE.md, then try one of the above
 ✨ **LLM-Powered** - Uses Groq API like your existing system  
 ✨ **Well-Documented** - 1500+ lines of docs for 700 lines of code  
 ✨ **Tested** - Complete validation suite included  
-✨ **Production-Ready** - Error handling, validation, best practices  
+✨ **Production-Ready** - Error handling, validation, best practices
 
 ---
 
@@ -312,6 +333,7 @@ Read: START_HERE.md, then try one of the above
 ## 🌟 THE BEST PART
 
 Everything is **ready to use right now** with:
+
 - ✅ No additional setup needed
 - ✅ Uses your existing API keys
 - ✅ Backward compatible (doesn't break existing code)
@@ -323,11 +345,13 @@ Everything is **ready to use right now** with:
 ## 🎬 START USING IT NOW
 
 ### Step 1: Try the Interactive Demo
+
 ```bash
 streamlit run streamlit_rewriter_demo.py
 ```
 
 ### Step 2: Explore Documentation
+
 ```bash
 # Read in this order:
 1. START_HERE.md          (5 min)
@@ -336,24 +360,26 @@ streamlit run streamlit_rewriter_demo.py
 ```
 
 ### Step 3: Integrate Into Code
+
 Choose pattern from integration_example.py and copy-paste
 
 ### Step 4: Customize (Optional)
+
 Edit prompts.py if you want domain-specific behavior
 
 ---
 
 ## 📞 HELP & SUPPORT
 
-| Need | Go To |
-|------|-------|
-| Quick understanding | START_HERE.md |
-| Fast code examples | REWRITER_QUICK_START.md |
-| Different use cases | REWRITER_USAGE_SCENARIOS.md |
-| Complete API docs | REWRITER_AGENT_DOCS.md |
-| Integration patterns | integration_example.py |
-| Check if working | test_rewriter_agent.py |
-| Try interactively | streamlit_rewriter_demo.py |
+| Need                 | Go To                       |
+| -------------------- | --------------------------- |
+| Quick understanding  | START_HERE.md               |
+| Fast code examples   | REWRITER_QUICK_START.md     |
+| Different use cases  | REWRITER_USAGE_SCENARIOS.md |
+| Complete API docs    | REWRITER_AGENT_DOCS.md      |
+| Integration patterns | integration_example.py      |
+| Check if working     | test_rewriter_agent.py      |
+| Try interactively    | streamlit_rewriter_demo.py  |
 
 ---
 
@@ -366,7 +392,7 @@ After using the rewriter, you should see:
 ✅ Better search results  
 ✅ More relevant content  
 ✅ Higher quality understanding  
-✅ Fewer wasted API calls  
+✅ Fewer wasted API calls
 
 ---
 
@@ -403,17 +429,17 @@ You now have a **complete, production-ready question rewriting system** that:
 🎯 **Clarifies** vague research questions  
 🎯 **Optimizes** for research planning  
 🎯 **Generates** smart search queries  
-🎯 **Improves** overall research quality  
+🎯 **Improves** overall research quality
 
 With:
 ✨ Clean, well-documented code  
 ✨ Complete test suite  
 ✨ Interactive demo  
 ✨ Multiple integration patterns  
-✨ 1500+ lines of documentation  
+✨ 1500+ lines of documentation
 
 **Ready to use immediately!** 🚀
 
 ---
 
-*Your Rewriter Agent is complete and waiting. Enjoy! ✨*
+_Your Rewriter Agent is complete and waiting. Enjoy! ✨_

@@ -28,6 +28,7 @@ START: Do you have a user research question?
 **Goal:** Generate a more focused research study plan from a user question
 
 ### Code
+
 ```python
 from rewriter_agent import rewrite_for_planning
 from planning_agent import generate_plan
@@ -48,6 +49,7 @@ for key, value in research_plan.items():
 ```
 
 ### What Happens
+
 ```
 INPUT:  "How can I learn machine learning?"
          (too vague, too practical)
@@ -63,6 +65,7 @@ PLANNER:  1. Fundamentals: Supervised vs Unsupervised Learning
 ```
 
 ### When to Use
+
 - ✅ Need focused study plans
 - ✅ Questions are too vague
 - ✅ Want to shift focus from "how to" to "understand"
@@ -75,6 +78,7 @@ PLANNER:  1. Fundamentals: Supervised vs Unsupervised Learning
 **Goal:** Get better search results from news and academic sources
 
 ### Code
+
 ```python
 from rewriter_agent import rewrite_for_search
 from mcp_client import fetch_news, fetch_arxiv
@@ -100,6 +104,7 @@ for query in arxiv_queries:
 ```
 
 ### What Happens
+
 ```
 INPUT:  "Tell me about recent AI developments"
         (generic search term)
@@ -109,7 +114,7 @@ REWRITER generates:
     - "AI breakthroughs 2024"
     - "machine learning industry trends"
     - "artificial intelligence applications"
-  
+
   ArXiv Queries:
     - "large language model architectures"
     - "deep learning methodology"
@@ -119,6 +124,7 @@ SEARCH:  Better results from specific, targeted searches
 ```
 
 ### When to Use
+
 - ✅ Want news-focused current information
 - ✅ Want academic paper results
 - ✅ Generic search terms return poor results
@@ -131,6 +137,7 @@ SEARCH:  Better results from specific, targeted searches
 **Goal:** Full optimization from question to results
 
 ### Code
+
 ```python
 from rewriter_agent import rewrite_full_pipeline
 from planning_agent import generate_plan
@@ -161,6 +168,7 @@ print(f"Papers: {arxiv_content[:200]}")
 ```
 
 ### What Happens
+
 ```
 INPUT:  "What are the latest developments in computer vision?"
           ↓
@@ -183,6 +191,7 @@ OUTPUT: Complete research package ✅
 ```
 
 ### When to Use
+
 - ✅ Want comprehensive research coverage
 - ✅ Need both theory and current information
 - ✅ Creating detailed research documents
@@ -195,17 +204,20 @@ OUTPUT: Complete research package ✅
 **Goal:** Explore and test incrementally in a UI
 
 ### How to Use
+
 ```bash
 streamlit run streamlit_rewriter_demo.py
 ```
 
 ### Features
+
 - **Full Pipeline Mode:** See everything in action
 - **Search Only Mode:** Focus on optimizing search queries
 - **Planning Only Mode:** Focus on creating plans
 - **Raw Rewriting Mode:** Debug and see exact JSON outputs
 
 ### When to Use
+
 - ✅ Learning how the rewriter works
 - ✅ Testing different questions
 - ✅ Debugging rewriting logic
@@ -219,6 +231,7 @@ streamlit run streamlit_rewriter_demo.py
 **Goal:** Add to your existing agent system
 
 ### Integration Point A: Before Planning
+
 ```python
 # BEFORE: planning_agent.py
 def generate_plan(topic: str):
@@ -230,12 +243,13 @@ from rewriter_agent import rewrite_for_planning
 def generate_plan_with_rewriter(user_question: str):
     # Rewrite first
     rewritten = rewrite_for_planning(user_question)
-    
+
     # Then plan with rewritten question
     return generate_plan(rewritten['rewritten_question'])
 ```
 
 ### Integration Point B: Before Search
+
 ```python
 # BEFORE: streamlit_researchagent.py
 news = fetch_news(user_input)
@@ -248,6 +262,7 @@ news = fetch_news(rewritten['news_queries'][0])
 ```
 
 ### Integration Point C: At Pipeline Start
+
 ```python
 # BEFORE: In your main orchestration
 def research(user_question):
@@ -264,6 +279,7 @@ def research(user_question):
 ```
 
 ### When to Use
+
 - ✅ Integrating into existing code
 - ✅ Adding to multi-agent systems
 - ✅ Customizing workflow
@@ -276,6 +292,7 @@ def research(user_question):
 **Goal:** Process multiple questions at once
 
 ### Code
+
 ```python
 from rewriter_agent import rewrite_full_pipeline
 import json
@@ -302,6 +319,7 @@ with open('rewrite_results.json', 'w') as f:
 ```
 
 ### When to Use
+
 - ✅ Processing multiple research questions
 - ✅ Building research batches
 - ✅ Comparing different questions
@@ -314,6 +332,7 @@ with open('rewrite_results.json', 'w') as f:
 **Goal:** Specialize rewriter for your domain
 
 ### Code
+
 ```python
 # Create a domain-specific wrapper
 from rewriter_agent import rewrite_for_planning, rewrite_for_search
@@ -322,10 +341,10 @@ def rewrite_for_medical_research(question: str):
     """Rewrite optimized for medical research"""
     # Could add domain rules, post-processing, etc.
     result = rewrite_for_planning(question)
-    
+
     # Could enhance with medical-specific logic
     result['domain'] = 'medical'
-    
+
     return result
 
 def rewrite_for_quantum_physics(question: str):
@@ -336,6 +355,7 @@ def rewrite_for_quantum_physics(question: str):
 ```
 
 ### When to Use
+
 - ✅ Specialized domain knowledge
 - ✅ Industry-specific research
 - ✅ Academic discipline focus
@@ -346,6 +366,7 @@ def rewrite_for_quantum_physics(question: str):
 ## Quick Copy-Paste Templates
 
 ### Template 1: Simple Planning
+
 ```python
 from rewriter_agent import rewrite_for_planning
 from planning_agent import generate_plan
@@ -357,6 +378,7 @@ print(p)
 ```
 
 ### Template 2: Simple Search
+
 ```python
 from rewriter_agent import rewrite_for_search
 from mcp_client import fetch_news, fetch_arxiv
@@ -369,6 +391,7 @@ print(news, arxiv)
 ```
 
 ### Template 3: Full Pipeline
+
 ```python
 from rewriter_agent import rewrite_full_pipeline
 
@@ -379,6 +402,7 @@ print("News:", r['recommended_search_queries']['news'])
 ```
 
 ### Template 4: Loop Over Multiple
+
 ```python
 from rewriter_agent import rewrite_for_planning
 
@@ -393,13 +417,15 @@ for q in questions:
 ## Performance Considerations
 
 ### API Calls Per Function
-| Function | API Calls | Approx Time |
-|----------|-----------|------------|
-| `rewrite_for_planning()` | 1 LLM call | 10-30 sec |
-| `rewrite_for_search()` | 1 LLM call | 10-30 sec |
-| `rewrite_full_pipeline()` | 2 LLM calls | 20-60 sec |
+
+| Function                  | API Calls   | Approx Time |
+| ------------------------- | ----------- | ----------- |
+| `rewrite_for_planning()`  | 1 LLM call  | 10-30 sec   |
+| `rewrite_for_search()`    | 1 LLM call  | 10-30 sec   |
+| `rewrite_full_pipeline()` | 2 LLM calls | 20-60 sec   |
 
 ### Optimization Tips
+
 ```python
 # TIP 1: Cache results for repeated questions
 from functools import lru_cache
@@ -421,7 +447,9 @@ def cached_rewrite(q):
 ## Troubleshooting by Scenario
 
 ### Scenario: "Questions are still too vague after rewriting"
+
 **Solution:** The rewriter can't fix extremely vague input
+
 ```python
 # ❌ Too vague
 "Tell me about AI"
@@ -431,7 +459,9 @@ def cached_rewrite(q):
 ```
 
 ### Scenario: "Search results are still irrelevant"
+
 **Solution:** Check the generated queries first
+
 ```python
 result = rewrite_for_search(q)
 print("Generated queries:")
@@ -441,13 +471,17 @@ print("Rationale:", result['search_rationale'])
 ```
 
 ### Scenario: "API calls failing"
+
 **Solution:** Use the test suite
+
 ```bash
 python test_rewriter_agent.py
 ```
 
 ### Scenario: "Need different behavior"
+
 **Solution:** Customize the prompts in prompts.py
+
 ```python
 # In prompts.py
 PLANNER_QUESTION_REWRITER_PROMPT = """
@@ -469,33 +503,35 @@ Your custom instructions here...
 
 ## Summary Table
 
-| Need | Function | Time | Effort |
-|------|----------|------|--------|
-| Better plans | `rewrite_for_planning()` | 15sec | Easy |
-| Better search | `rewrite_for_search()` | 15sec | Easy |
-| Complete opt. | `rewrite_full_pipeline()` | 30sec | Easy |
-| Interactive | Streamlit Demo | 2min | Very Easy |
-| Integration | integration_example.py | 5min | Easy |
-| Customization | Edit prompts.py | 10min | Medium |
+| Need          | Function                  | Time  | Effort    |
+| ------------- | ------------------------- | ----- | --------- |
+| Better plans  | `rewrite_for_planning()`  | 15sec | Easy      |
+| Better search | `rewrite_for_search()`    | 15sec | Easy      |
+| Complete opt. | `rewrite_full_pipeline()` | 30sec | Easy      |
+| Interactive   | Streamlit Demo            | 2min  | Very Easy |
+| Integration   | integration_example.py    | 5min  | Easy      |
+| Customization | Edit prompts.py           | 10min | Medium    |
 
 ---
 
 ## 🎯 Start Here
 
 1. **Try this NOW:**
-   ```python
-   from rewriter_agent import rewrite_for_planning
-   result = rewrite_for_planning("What is machine learning?")
-   print(result['rewritten_question'])
-   ```
+
+    ```python
+    from rewriter_agent import rewrite_for_planning
+    result = rewrite_for_planning("What is machine learning?")
+    print(result['rewritten_question'])
+    ```
 
 2. **Or try Streamlit:**
-   ```bash
-   streamlit run streamlit_rewriter_demo.py
-   ```
+
+    ```bash
+    streamlit run streamlit_rewriter_demo.py
+    ```
 
 3. **Then integrate into your code** using one of the patterns above
 
 ---
 
-*Choose your scenario above and copy the code to get started immediately!*
+_Choose your scenario above and copy the code to get started immediately!_

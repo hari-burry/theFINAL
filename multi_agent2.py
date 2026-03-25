@@ -1,8 +1,20 @@
 import os
 import json
+from dotenv import load_dotenv
 import base64
 import streamlit as st
 from langchain_groq import ChatGroq
+
+
+load_dotenv()
+
+key = os.getenv("GROQ_API_KEY")
+if key:
+    st.write(f"Loaded key starts with: {key[:10]}... ends with: {key[-10:]}")
+else:
+    st.error("GROQ_API_KEY not found in environment")
+    
+# The GROQ_API_KEY is loaded from .env file
 
 # =======================
 # PAGE CONFIG
@@ -312,7 +324,7 @@ section[data-testid="stSidebar"] { display: none; }
 # =======================
 # ENV & LLM
 # =======================
-os.environ["GROQ_API_KEY"] = "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"
+
 
 @st.cache_resource
 def get_llm():

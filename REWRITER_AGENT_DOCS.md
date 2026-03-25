@@ -37,24 +37,28 @@ Final Response
 Rewrites a user question to be optimal for the research planning process.
 
 **Input:**
+
 - `question` (str): Original user question
 
 **Output:**
+
 ```json
 {
-  "original_question": "How do I get started with machine learning?",
-  "rewritten_question": "Fundamental Concepts and Theoretical Foundations of Machine Learning",
-  "research_focus": "Core mathematical and conceptual foundations of machine learning"
+	"original_question": "How do I get started with machine learning?",
+	"rewritten_question": "Fundamental Concepts and Theoretical Foundations of Machine Learning",
+	"research_focus": "Core mathematical and conceptual foundations of machine learning"
 }
 ```
 
 **What it does:**
+
 - Clarifies the research topic
 - Removes implementation details and tooling references
 - Makes it suitable for generating a structured study plan
 - Emphasizes conceptual understanding over practical steps
 
 **Example:**
+
 ```python
 from rewriter_agent import rewrite_for_planning
 
@@ -70,38 +74,41 @@ print(result['rewritten_question'])
 Generates optimized search queries specific to news and academic research sources.
 
 **Input:**
+
 - `question` (str): Original user question
 
 **Output:**
+
 ```json
 {
-  "original_question": "What's happening with AI safety?",
-  "news_queries": [
-    "AI safety concerns 2024",
-    "machine learning alignment research",
-    "artificial intelligence ethics regulations"
-  ],
-  "arxiv_queries": [
-    "AI alignment methodology",
-    "large language model safety evaluation",
-    "adversarial robustness neural networks"
-  ],
-  "search_rationale": "News queries focus on recent developments and policy..."
+	"original_question": "What's happening with AI safety?",
+	"news_queries": [
+		"AI safety concerns 2024",
+		"machine learning alignment research",
+		"artificial intelligence ethics regulations"
+	],
+	"arxiv_queries": [
+		"AI alignment methodology",
+		"large language model safety evaluation",
+		"adversarial robustness neural networks"
+	],
+	"search_rationale": "News queries focus on recent developments and policy..."
 }
 ```
 
 **What it does:**
+
 - Generates 3 news queries focused on:
-  - Recent developments and current events
-  - Practical applications and industry news
-  - Recent keywords and current terminology
-  
+    - Recent developments and current events
+    - Practical applications and industry news
+    - Recent keywords and current terminology
 - Generates 3 arXiv queries focused on:
-  - Theoretical foundations and methodologies
-  - Formal academic terminology
-  - Research frameworks and analyses
+    - Theoretical foundations and methodologies
+    - Formal academic terminology
+    - Research frameworks and analyses
 
 **Example:**
+
 ```python
 from rewriter_agent import rewrite_for_search
 
@@ -119,9 +126,11 @@ for query in result['arxiv_queries']:
 Complete pipeline that performs both planning and search rewrites simultaneously.
 
 **Input:**
+
 - `question` (str): Original user question
 
 **Output:**
+
 ```json
 {
   "original_question": "How do neural networks learn?",
@@ -136,6 +145,7 @@ Complete pipeline that performs both planning and search rewrites simultaneously
 ```
 
 **Example:**
+
 ```python
 from rewriter_agent import rewrite_full_pipeline
 
@@ -151,6 +161,7 @@ print("News queries:", result['recommended_search_queries']['news'])
 ### 1. Direct Integration with Planning Agent
 
 **Before (without rewriter):**
+
 ```python
 from planning_agent import generate_plan
 
@@ -158,6 +169,7 @@ plan = generate_plan("How do I use machine learning?")
 ```
 
 **After (with rewriter):**
+
 ```python
 from rewriter_agent import rewrite_for_planning
 from planning_agent import generate_plan
@@ -169,6 +181,7 @@ plan = generate_plan(rewritten['rewritten_question'])
 ### 2. Direct Integration with Search
 
 **Before (without rewriter):**
+
 ```python
 from mcp_client import fetch_news, fetch_arxiv
 
@@ -177,6 +190,7 @@ arxiv = fetch_arxiv("machine learning", max_results=5)
 ```
 
 **After (with rewriter):**
+
 ```python
 from rewriter_agent import rewrite_for_search
 from mcp_client import fetch_news, fetch_arxiv
@@ -203,6 +217,7 @@ streamlit run streamlit_rewriter_demo.py
 ```
 
 Features:
+
 - **Full Pipeline Mode**: Question → Rewrite → Plan → Search → Results
 - **Search Only Mode**: Question → Optimize Queries → Fetch Results
 - **Planning Only Mode**: Question → Rewrite → Generate Plan
@@ -291,6 +306,7 @@ The rewriter uses two main prompts defined in `prompts.py`:
 Specializes in converting vague or practical questions into research-focused topics.
 
 **Rules:**
+
 - Clarifies core research topic
 - Makes scope specific and bounded
 - Emphasizes understanding (theory, concepts)
@@ -302,12 +318,14 @@ Specializes in converting vague or practical questions into research-focused top
 Generates source-specific search queries.
 
 **For News:**
+
 - Uses recent keywords
 - Focuses on practical applications
 - Current events emphasis
 - Multi-word queries
 
 **For ArXiv:**
+
 - Uses formal academic terminology
 - Focuses on methodology and theory
 - Technical keywords
@@ -320,11 +338,13 @@ Generates source-specific search queries.
 ### 1. Question Formulation for Better Rewrites
 
 ❌ **Vague:**
+
 ```
 "Tell me about AI"
 ```
 
 ✅ **Better:**
+
 ```
 "What are the fundamental concepts underlying neural networks?"
 ```
@@ -406,6 +426,7 @@ result2 = cached_plan_rewrite("What is NLP?")  # Cached!
 ### Issue: Rewritten question is still too vague
 
 **Solution:** The original question might lack specificity. Try:
+
 ```python
 # Instead of
 rewrite_for_planning("Tell me about AI")
@@ -417,6 +438,7 @@ rewrite_for_planning("What are the mathematical foundations of deep learning?")
 ### Issue: Search queries return irrelevant results
 
 **Solution:** Validate the search queries first:
+
 ```python
 result = rewrite_for_search(question)
 print("Queries:", result['news_queries'])
@@ -428,6 +450,7 @@ print("Rationale:", result['search_rationale'])
 ### Issue: LLM API errors
 
 **Solution:** The rewriter uses `LLMScheduler` for load balancing. Check:
+
 ```python
 # Verify API keys are set
 import os

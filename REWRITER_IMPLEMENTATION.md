@@ -11,6 +11,7 @@ You now have a complete **question rewriting system** that optimizes user querie
 ### Core Implementation
 
 #### 1. **rewriter_agent.py** (Main Module)
+
 The core rewriter agent with three functions:
 
 - `rewrite_for_planning(question)` - Optimize questions for research planning
@@ -18,6 +19,7 @@ The core rewriter agent with three functions:
 - `rewrite_full_pipeline(question)` - Run both rewrites simultaneously
 
 **Key Features:**
+
 - Uses Groq LLM with load balancing (LLMScheduler)
 - Clean JSON outputs
 - Can operate independently or as part of larger pipeline
@@ -25,6 +27,7 @@ The core rewriter agent with three functions:
 ### Integration & Examples
 
 #### 2. **integration_example.py** (Integration Patterns)
+
 Shows 3 ways to integrate the rewriter:
 
 - `research_pipeline_with_rewriter()` - Full pipeline (rewrite → plan → search)
@@ -34,6 +37,7 @@ Shows 3 ways to integrate the rewriter:
 **Use when:** You need code examples of how to use the rewriter in your existing system
 
 #### 3. **streamlit_rewriter_demo.py** (Interactive Demo)
+
 A full-featured Streamlit app for testing and exploring:
 
 - 4 different modes (Full Pipeline, Search Only, Planning Only, Raw Rewriting)
@@ -47,6 +51,7 @@ A full-featured Streamlit app for testing and exploring:
 ### Documentation
 
 #### 4. **REWRITER_AGENT_DOCS.md** (Comprehensive Reference)
+
 Complete technical documentation including:
 
 - Architecture diagrams
@@ -60,6 +65,7 @@ Complete technical documentation including:
 **Use when:** You need detailed technical information about the rewriter
 
 #### 5. **REWRITER_QUICK_START.md** (Quick Reference)
+
 Fast setup guide with:
 
 - 5-minute quick start
@@ -72,6 +78,7 @@ Fast setup guide with:
 **Use when:** You want to get started quickly or need fast reference examples
 
 #### 6. **prompts.py** (Updated - Prompts)
+
 Added two new prompt templates to your existing `prompts.py`:
 
 - `PLANNER_QUESTION_REWRITER_PROMPT` - For planning optimization
@@ -132,22 +139,26 @@ Added two new prompt templates to your existing `prompts.py`:
 ## How It Works
 
 ### Step 1: Planning Rewriter
+
 Takes a user question and rewrites it for the planning process:
 
 **Input:** "How do I get started with machine learning?"
 
 **Output:**
+
 - Rewritten Question: "Fundamental Concepts and Machine Learning Methodologies"
 - Research Focus: "Core mathematical and conceptual foundations"
 
 **Why:** Removes practical details, focuses on theory, creates bounded scope perfect for a 5-point study plan
 
 ### Step 2: Search Rewriter
+
 Takes a user question and generates specialized search queries:
 
 **Input:** "Tell me about recent AI developments"
 
 **Output:**
+
 - News Queries: ["AI breakthroughs 2024", "machine learning industry news", "artificial intelligence regulations"]
 - ArXiv Queries: ["deep learning architectures survey", "neural network optimization", "transformer models"]
 
@@ -158,27 +169,32 @@ Takes a user question and generates specialized search queries:
 ## Key Features
 
 ### ✅ Two Independent Functions
+
 - Use them together or separately
 - Flexible integration into existing code
 - No tight coupling required
 
 ### ✅ Prompt-Based
+
 - Easy to customize for your domain
 - Centralized in `prompts.py`
 - Can be refined based on performance
 
 ### ✅ LLM-Powered
+
 - Uses your existing Groq API setup
 - Leverages LLMScheduler for load balancing
 - Can handle complex reasoning
 
 ### ✅ Multiple Integration Patterns
+
 - Can be first step in any pipeline
 - Works with existing planning agent
 - Compatible with search agents
 - Feeds into concept engine
 
 ### ✅ Production Ready
+
 - Error handling
 - JSON output validation
 - API key management
@@ -189,6 +205,7 @@ Takes a user question and generates specialized search queries:
 ## Quick Integration Examples
 
 ### Pattern 1: Enhance Your Planning Agent
+
 ```python
 from rewriter_agent import rewrite_for_planning
 from planning_agent import generate_plan
@@ -203,6 +220,7 @@ plan = generate_plan(rewritten['rewritten_question'])
 ```
 
 ### Pattern 2: Optimize Your Search
+
 ```python
 from rewriter_agent import rewrite_for_search
 from mcp_client import fetch_news, fetch_arxiv
@@ -218,6 +236,7 @@ arxiv = fetch_arxiv(rewritten['arxiv_queries'][0])
 ```
 
 ### Pattern 3: Full Pipeline
+
 ```python
 from rewriter_agent import rewrite_full_pipeline
 from planning_agent import generate_plan
@@ -238,6 +257,7 @@ arxiv = fetch_arxiv(result['recommended_search_queries']['arxiv'][0])
 ## Testing Your Rewriter
 
 ### Option 1: Python Script
+
 ```bash
 python -c "
 from rewriter_agent import rewrite_full_pipeline
@@ -248,16 +268,19 @@ print(json.dumps(result, indent=2))
 ```
 
 ### Option 2: Streamlit Demo
+
 ```bash
 streamlit run streamlit_rewriter_demo.py
 ```
 
 ### Option 3: Integration Example
+
 ```bash
 python integration_example.py
 ```
 
 ### Option 4: Your Own Script
+
 ```python
 from rewriter_agent import rewrite_for_planning, rewrite_for_search
 
@@ -277,7 +300,9 @@ print("News queries:", r2['news_queries'])
 ## Customization Points
 
 ### 1. Modify Prompts
+
 Edit `prompts.py` to customize rewriting behavior:
+
 ```python
 PLANNER_QUESTION_REWRITER_PROMPT = """
 Your custom prompt here...
@@ -285,7 +310,9 @@ Your custom prompt here...
 ```
 
 ### 2. Add Domain-Specific Rules
+
 Create specialized rewriters:
+
 ```python
 def rewrite_for_medical_research(question: str):
     """Medical-specific rewriting logic"""
@@ -293,6 +320,7 @@ def rewrite_for_medical_research(question: str):
 ```
 
 ### 3. Add Caching
+
 ```python
 from functools import lru_cache
 
@@ -302,6 +330,7 @@ def cached_rewrite(question: str):
 ```
 
 ### 4. Add Logging
+
 ```python
 import logging
 logger = logging.getLogger(__name__)
@@ -316,24 +345,28 @@ def rewrite_for_planning(question: str):
 ## What's Next?
 
 ### Immediate (This Week)
+
 - [ ] Try the Streamlit demo
 - [ ] Test with your own questions
 - [ ] Review the integration examples
 - [ ] Customize prompts for your use case
 
 ### Short Term (Next 2 Weeks)
+
 - [ ] Integrate into your existing pipeline
 - [ ] Add to multi_agent.py if you have one
 - [ ] Test with your real research questions
 - [ ] Measure quality improvements
 
 ### Medium Term (This Month)
+
 - [ ] Gather metrics on rewrite quality
 - [ ] Refine prompts based on results
 - [ ] Add domain-specific variants
 - [ ] Integrate with your Streamlit apps
 
 ### Long Term (Future)
+
 - [ ] Multi-language support
 - [ ] User feedback loop for learning
 - [ ] Query ranking and scoring
@@ -364,29 +397,33 @@ trying/
 
 ## API Reference (Quick)
 
-| Function | Input | Output | Use For |
-|----------|-------|--------|---------|
-| `rewrite_for_planning(q)` | Question | Rewritten question, research focus | Optimizing for planning |
-| `rewrite_for_search(q)` | Question | News/ArXiv queries, rationale | Optimizing searches |
-| `rewrite_full_pipeline(q)` | Question | Both rewrites + recommendations | Complete optimization |
+| Function                   | Input    | Output                             | Use For                 |
+| -------------------------- | -------- | ---------------------------------- | ----------------------- |
+| `rewrite_for_planning(q)`  | Question | Rewritten question, research focus | Optimizing for planning |
+| `rewrite_for_search(q)`    | Question | News/ArXiv queries, rationale      | Optimizing searches     |
+| `rewrite_full_pipeline(q)` | Question | Both rewrites + recommendations    | Complete optimization   |
 
 ---
 
 ## Support & Troubleshooting
 
 **Can't import rewriter_agent?**
+
 - Ensure you're in the right directory: `c:\Users\hari\OneDrive\Desktop\trying`
 - Run: `python -c "import rewriter_agent"`
 
 **JSON parsing errors?**
+
 - Usually transient - the rewriter retries automatically in most systems
 - Adjust LLM temperature if needed
 
 **API key issues?**
+
 - Check: `python -c "import os; print(os.environ.get('GROQ_API_KEY'))"`
 - Should match your planning_agent.py
 
 **Want customization?**
+
 - Edit prompts in `prompts.py`
 - See REWRITER_AGENT_DOCS.md for extension ideas
 
@@ -399,12 +436,12 @@ trying/
 ✅ **Documented:** 2 comprehensive guides (full + quick)  
 ✅ **Integrated:** Works with existing planning and search agents  
 ✅ **Flexible:** Can be used independently or as part of pipeline  
-✅ **Customizable:** All prompts in prompts.py, easy to modify  
+✅ **Customizable:** All prompts in prompts.py, easy to modify
 
 **Next step:** Try `streamlit run streamlit_rewriter_demo.py` for an interactive experience!
 
 ---
 
-*For detailed information, see REWRITER_AGENT_DOCS.md*  
-*For quick examples, see REWRITER_QUICK_START.md*  
-*For code patterns, see integration_example.py*
+_For detailed information, see REWRITER_AGENT_DOCS.md_  
+_For quick examples, see REWRITER_QUICK_START.md_  
+_For code patterns, see integration_example.py_

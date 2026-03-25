@@ -5,6 +5,7 @@
 ### Planning Workflow
 
 #### BEFORE (Without Rewriter)
+
 ```python
 from planning_agent import generate_plan
 
@@ -14,6 +15,7 @@ plan = generate_plan("How can I learn machine learning?")
 ```
 
 #### AFTER (With Rewriter)
+
 ```python
 from planning_agent import generate_plan_with_rewriter
 
@@ -24,7 +26,8 @@ plan = result['plan']
 # Result: Focused plan on theory and concepts
 ```
 
-**Impact:** 
+**Impact:**
+
 - ❌ Before: Vague topic → unfocused 5-point plan
 - ✅ After: Clarified topic → focused 5-point plan
 
@@ -33,6 +36,7 @@ plan = result['plan']
 ### Search Workflow
 
 #### BEFORE (Without Rewriter)
+
 ```python
 from mcp_client import fetch_news, fetch_arxiv
 
@@ -43,6 +47,7 @@ arxiv = fetch_arxiv("Tell me about AI safety", max_results=5)
 ```
 
 #### AFTER (With Rewriter)
+
 ```python
 from streamlit_researchagent import fetch_best_results
 
@@ -54,6 +59,7 @@ arxiv = results['arxiv_results']     # Better papers
 ```
 
 **Impact:**
+
 - ❌ Before: Generic queries → mixed results
 - ✅ After: Optimized queries → highly relevant results
 
@@ -62,6 +68,7 @@ arxiv = results['arxiv_results']     # Better papers
 ### Complete Research
 
 #### BEFORE (Without Rewriter)
+
 ```python
 from planning_agent import generate_plan
 from mcp_client import fetch_news, fetch_arxiv
@@ -80,6 +87,7 @@ arxiv = fetch_arxiv(user_question)
 ```
 
 #### AFTER (With Rewriter)
+
 ```python
 from integrated_workflow import balanced_research
 
@@ -96,6 +104,7 @@ result = balanced_research(user_question)
 ```
 
 **Impact:**
+
 - ❌ Before: Manual workflow, generic queries
 - ✅ After: Optimized workflow, all results enhanced
 
@@ -108,11 +117,13 @@ result = balanced_research(user_question)
 #### WITHOUT REWRITER
 
 **Step 1: Original Question**
+
 ```
 "Tell me about AI and climate change"
 ```
 
 **Step 2: Planning**
+
 ```
 Plan generated for: "Tell me about AI and climate change"
 1. What is AI?
@@ -125,6 +136,7 @@ Plan generated for: "Tell me about AI and climate change"
 ```
 
 **Step 3: Search**
+
 ```
 Q: "Tell me about AI and climate change"
 News: Mix of AI news, climate news, both
@@ -135,11 +147,13 @@ News: Mix of AI news, climate news, both
 #### WITH REWRITER
 
 **Step 1: Original Question**
+
 ```
 "Tell me about AI and climate change"
 ```
 
 **Step 2: Rewriter Optimizes**
+
 ```
 Question rewritten to:
 "Machine Learning Applications in Climate Science and Environmental Modeling"
@@ -148,6 +162,7 @@ With focus: "Computational methods for climate prediction and environmental sens
 ```
 
 **Step 3: Planning**
+
 ```
 Plan generated for: "ML Applications in Climate Science..."
 1. Environmental Sensing and Data Collection
@@ -160,6 +175,7 @@ Plan generated for: "ML Applications in Climate Science..."
 ```
 
 **Step 4: Search with Optimized Queries**
+
 ```
 News Queries Generated:
 - "AI climate models 2024"
@@ -174,7 +190,8 @@ ArXiv Queries Generated:
 ✅ Highly targeted results
 ```
 
-**Result:** 
+**Result:**
+
 - ✅ Better plan (focused on ML for climate)
 - ✅ Better news (current climate AI developments)
 - ✅ Better papers (relevant research methods)
@@ -185,25 +202,27 @@ ArXiv Queries Generated:
 
 ### Before vs After
 
-| Metric | Before | After | Improvement |
-|--------|--------|-------|-------------|
-| Focus (1-10) | 3/10 | 9/10 | +300% |
-| Relevance (1-10) | 5/10 | 9.5/10 | +90% |
-| API Efficiency | Basic | Optimized | Better |
-| Time to Result | ~2 min | ~3 min | +caching |
-| User Satisfaction | Moderate | High | Predicted |
+| Metric            | Before   | After     | Improvement |
+| ----------------- | -------- | --------- | ----------- |
+| Focus (1-10)      | 3/10     | 9/10      | +300%       |
+| Relevance (1-10)  | 5/10     | 9.5/10    | +90%        |
+| API Efficiency    | Basic    | Optimized | Better      |
+| Time to Result    | ~2 min   | ~3 min    | +caching    |
+| User Satisfaction | Moderate | High      | Predicted   |
 
 ---
 
 ## Integration Checklist
 
 ### For planning_agent.py
+
 - [x] Import rewriter (optional)
 - [x] Add new function `generate_plan_with_rewriter()`
 - [x] Keep original `generate_plan()` for backward compatibility
 - [x] Add error handling with fallback
 
 ### For streamlit_researchagent.py
+
 - [x] Import rewriter (optional)
 - [x] Add `optimize_search_query()` function
 - [x] Add `fetch_best_results()` function
@@ -211,12 +230,14 @@ ArXiv Queries Generated:
 - [x] Keep original functionality unchanged
 
 ### For integrated_workflow.py (NEW)
+
 - [x] Create complete workflows
 - [x] Provide 4 workflow options
 - [x] Add documentation
 - [x] Make it easy to test
 
 ### For documentation
+
 - [x] Create INTEGRATION_GUIDE.md
 - [x] Before/After comparison
 - [x] Usage examples
@@ -229,6 +250,7 @@ ArXiv Queries Generated:
 ### Example 1: Simple Planning
 
 **BEFORE:**
+
 ```python
 from planning_agent import generate_plan
 
@@ -237,17 +259,19 @@ print(result)
 ```
 
 Output:
+
 ```json
 {
-  "1": "What is Machine Learning?",
-  "2": "Supervised and Unsupervised Learning",
-  "3": "Common Algorithms",
-  "4": "Applications",
-  "5": "Future Trends"
+	"1": "What is Machine Learning?",
+	"2": "Supervised and Unsupervised Learning",
+	"3": "Common Algorithms",
+	"4": "Applications",
+	"5": "Future Trends"
 }
 ```
 
 **AFTER:**
+
 ```python
 from planning_agent import generate_plan_with_rewriter
 
@@ -256,13 +280,14 @@ print(result['plan'])
 ```
 
 Output:
+
 ```json
 {
-  "1": "Mathematical Foundations of Machine Learning",
-  "2": "Supervised Learning: Theory and Methods",
-  "3": "Unsupervised Learning: Algorithms and Applications",
-  "4": "Optimization Techniques and Convergence",
-  "5": "Advanced Topics: Ensemble Methods and Regularization"
+	"1": "Mathematical Foundations of Machine Learning",
+	"2": "Supervised Learning: Theory and Methods",
+	"3": "Unsupervised Learning: Algorithms and Applications",
+	"4": "Optimization Techniques and Convergence",
+	"5": "Advanced Topics: Ensemble Methods and Regularization"
 }
 ```
 
@@ -273,6 +298,7 @@ Output:
 ### Example 2: Search Results
 
 **BEFORE:**
+
 ```python
 from mcp_client import fetch_news
 
@@ -282,6 +308,7 @@ result = fetch_news("transformer neural networks")
 Result: ~50% relevant, 50% random AI news
 
 **AFTER:**
+
 ```python
 from integrated_workflow import search_first_discovery
 
@@ -297,6 +324,7 @@ Result: ~90% relevant, focused on transformer architecture papers and news
 ### Example 3: Complete Research
 
 **BEFORE:**
+
 ```python
 from planning_agent import generate_plan
 from mcp_client import fetch_news, fetch_arxiv
@@ -312,12 +340,14 @@ print(plan, news, arxiv)
 ```
 
 Issues:
+
 - Requires manual orchestration
 - No query optimization
 - No concept building
 - Generic search terms
 
 **AFTER:**
+
 ```python
 from integrated_workflow import balanced_research
 
@@ -334,6 +364,7 @@ result = balanced_research(q)
 ```
 
 Benefits:
+
 - ✅ Automatic orchestration
 - ✅ Query optimization
 - ✅ Concept building included
@@ -344,6 +375,7 @@ Benefits:
 ## Integration Points
 
 ### Point 1: Question Entry
+
 ```
 User Question
        ↓
@@ -353,6 +385,7 @@ Planning + Search
 ```
 
 ### Point 2: Planning Flow
+
 ```
 Question
        ↓
@@ -362,6 +395,7 @@ Better 5-point plan
 ```
 
 ### Point 3: Search Flow
+
 ```
 Question
        ↓
@@ -396,18 +430,22 @@ result = generate_plan_with_rewriter("topic")
 ## Migration Path
 
 ### Phase 1: No Changes Needed
+
 - Keep using your existing code
 - Rewriter is already available as optional enhancement
 
 ### Phase 2: Optional Enhancement
+
 - Start using `generate_plan_with_rewriter()` in specific modules
 - Test with your data
 
 ### Phase 3: Full Integration
+
 - Replace old functions with rewriter versions
 - Use `integrated_workflow.py` for new projects
 
 ### Phase 4: Custom Workflows
+
 - Build on `integrated_workflow.py`
 - Extend with domain-specific logic
 
@@ -419,13 +457,14 @@ result = generate_plan_with_rewriter("topic")
 ✅ **Search Relevance:** From 5/10 (mixed) to 9.5/10 (targeted)  
 ✅ **User Satisfaction:** Predicted to increase significantly  
 ✅ **Research Speed:** Faster with better targeting  
-✅ **API Efficiency:** Optimized queries reduce wasted calls  
+✅ **API Efficiency:** Optimized queries reduce wasted calls
 
 ---
 
 ## Support & Testing
 
 ### Test the Integration
+
 ```bash
 # Test planning integration
 python -c "from planning_agent import generate_plan_with_rewriter; print(generate_plan_with_rewriter('test'))"
@@ -438,12 +477,14 @@ python integrated_workflow.py
 ```
 
 ### Verify Rewriter Availability
+
 ```python
 from planning_agent import REWRITER_AVAILABLE
 print(f"Rewriter available: {REWRITER_AVAILABLE}")
 ```
 
 ### Check for Errors
+
 ```python
 # Will gracefully fall back if rewriter unavailable
 result = generate_plan_with_rewriter("your topic", use_rewriter=True)
@@ -454,13 +495,13 @@ print(f"Was rewritten: {result['was_rewritten']}")
 
 ## Summary
 
-| Aspect | Before | After |
-|--------|--------|-------|
-| **Planning** | Generic | Focused ✅ |
-| **Search** | Random | Targeted ✅ |
-| **Integration** | Manual | Automatic ✅ |
-| **Compatibility** | N/A | 100% Backward ✅ |
-| **Ease of Use** | Medium | Easy ✅ |
-| **Results Quality** | Good | Excellent ✅ |
+| Aspect              | Before  | After            |
+| ------------------- | ------- | ---------------- |
+| **Planning**        | Generic | Focused ✅       |
+| **Search**          | Random  | Targeted ✅      |
+| **Integration**     | Manual  | Automatic ✅     |
+| **Compatibility**   | N/A     | 100% Backward ✅ |
+| **Ease of Use**     | Medium  | Easy ✅          |
+| **Results Quality** | Good    | Excellent ✅     |
 
 **Your system is now integrated and enhanced!** 🎉
