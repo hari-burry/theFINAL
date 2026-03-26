@@ -10,10 +10,10 @@ from utils import safe_json_loads, extract_json_value, standardize_llm_output, v
 load_dotenv()
 
 key = os.getenv("GROQ_API_KEY")
-if key:
-    st.write(f"Loaded key starts with: {key[:10]}... ends with: {key[-10:]}")
-else:
-    st.error("GROQ_API_KEY not found in environment")
+# if key:
+#     st.write(f"Loaded key starts with: {key[:10]}... ends with: {key[-10:]}")
+# else:
+#     st.error("GROQ_API_KEY not found in environment")
     
 # The GROQ_API_KEY is loaded from .env file
 
